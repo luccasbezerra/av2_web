@@ -25,6 +25,21 @@ exports.read = function (req, res) {
     })  
 };
 
+
+exports.update = function (req, res) {
+    Livro.findOne({isbn: parseInt(req.body.isbn)}, function (err, livro) {
+        if (err) return err;
+            livro.nomeLivro = req.body.nomeLivro;
+            livro.autor = req.body.autor;
+            livro.editora = req.body.editora;
+            livro.dataLancamento = Date.parse(req.body.dataLancamento);
+            livro.volume = parseInt(req.body.volume);
+
+            livro.save()
+            res.send(livro);
+    })
+};
+
 exports.delete = function (req, res) {
     console.log(req.params)
     Livro.findOneAndRemove({isbn: parseInt(req.params.isbn)}, function (err) {
